@@ -1,6 +1,41 @@
-# Install Tools -Kubectl
-   The Kubernetes command-line tool, kubectl, allows you to run commands against Kubernetes clusters. You can use kubectl to deploy applications, inspect and manage cluster    
-    resources, and view logs. For more information including a complete list of kubectl operations
-## Kubectl in Linux
-  - sudo apt-get update
-  - sudo apt-get install -y kubectl
+# Install kind on linux:
+
+
+#!/bin/bash
+
+[ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.26.0/kind-linux-amd64
+chmod +x ./kind
+sudo mv ./kind /usr/local/bin/kind
+
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x kubectl
+sudo mv ./kubectl /usr/local/bin/kubectl
+
+echo "kind & kubectl Successfully Installed!"
+
+# Multi-node clusters
+ You can also have a cluster with multiple control-plane & worker nodes, create a config file.
+
+ 
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  image: kindest/node:v1.32.1
+- role: worker
+  image: kindest/node:v1.32.1
+- role: worker
+  image: kindest/node:v1.32.1
+- role: worker
+  image: kindest/node:v1.32.1
+  extraPortMappings:
+  - containerPort: 80
+    hostPort: 80
+    protocol: tcp
+
+    <img width="1259" height="508" alt="image" src="https://github.com/user-attachments/assets/b4b3e3a1-0cba-4a4e-a237-6e2977ec328c" />
+
+
+
+
+ 
